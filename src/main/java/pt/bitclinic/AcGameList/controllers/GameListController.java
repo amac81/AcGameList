@@ -17,7 +17,7 @@ import pt.bitclinic.AcGameList.services.GameService;
 //is the "front door" to our backend
 
 @RestController
-@RequestMapping(value = "lists")
+@RequestMapping(value = "/lists")
 public class GameListController {
 
 	@Autowired
@@ -32,8 +32,7 @@ public class GameListController {
 	}
 	
 	@GetMapping(value = "/{listId}/games")
-	public List<GameMinDTO> findByList(@PathVariable Long listId) {
-		
+	public List<GameMinDTO> findByList(@PathVariable Long listId) {		
 		return gameService.findByGameList(listId);
 	}
 }
