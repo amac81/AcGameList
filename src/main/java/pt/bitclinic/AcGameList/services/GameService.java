@@ -1,10 +1,13 @@
 package pt.bitclinic.AcGameList.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import pt.bitclinic.AcGameList.dto.GameDTO;
 import pt.bitclinic.AcGameList.dto.GameMinDTO;
 import pt.bitclinic.AcGameList.entities.Game;
 import pt.bitclinic.AcGameList.repositories.GameRepository;
@@ -14,7 +17,8 @@ public class GameService {
 	@Autowired
 	private GameRepository gameRepository;
 
-	// using JpaRepository to retrieve data from database
+	
+	@Transactional(readOnly = true)	
 	public List<GameMinDTO> findAll() {
 		List<Game> result =  gameRepository.findAll();
 		
@@ -30,4 +34,19 @@ public class GameService {
 		return games;
 	}
 
+	@Transactional(readOnly = true)	
+	public GameDTO findById(Long id) {	
+		GameDTO gameDto = null;
+		try {
+			Game result = gameRepository.findById(id).get();
+			gameDto = new GameDTO(result);
+			 
+		}
+		catch (NoSuchElementException e) {
+			System.out.printf("Error: no such game id: [%d]" , id);
+		}
+		
+		return gameDto;
+	}	
+	
 }
