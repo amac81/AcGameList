@@ -43,7 +43,7 @@ public class GameService {
 			 
 		}
 		catch (NoSuchElementException e) {
-			System.out.printf("Error: no such game id: [%d]" , id);
+			System.out.printf("Error: no such Game with id [%d]" , id);
 		}
 		
 		return gameDto;
