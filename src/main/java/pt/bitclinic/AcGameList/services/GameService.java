@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pt.bitclinic.AcGameList.dto.GameDTO;
 import pt.bitclinic.AcGameList.dto.GameMinDTO;
 import pt.bitclinic.AcGameList.entities.Game;
+import pt.bitclinic.AcGameList.projections.GameMinProjection;
 import pt.bitclinic.AcGameList.repositories.GameRepository;
 
 @Service
@@ -43,10 +44,20 @@ public class GameService {
 			 
 		}
 		catch (NoSuchElementException e) {
-			System.out.printf("Error: no such Game with id [%d]" , id);
+			System.out.printf("Error: no such GameList with id [%d]", id);
 		}
 		
 		return gameDto;
 	}	
+	
+	
+	@Transactional(readOnly = true)	
+	public List<GameMinDTO> findByGameList(long gameListId) {
+		List<GameMinProjection> result =  gameRepository.searchByList(gameListId);
+		
+		List<GameMinDTO> games = result.stream().map(x -> new GameMinDTO(x)).toList();
+		
+		return games;
+	}
 	
 }
